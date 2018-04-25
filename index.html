@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
-<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
     <meta charset='utf-8' />
     <title>Tim's Pizza</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <link href="https://fonts.googleapis.com/css?family=Vollkorn" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 
@@ -43,15 +44,53 @@
     <div class="announcement-container">
       <h1>World domination coming soon</h1>
       <h2>Tim's is going global! Use the map below to find a location near you.</h2>
-      <div id='map' style='width: 400px; height: 300px;'></div>
-<script>
-  mapboxgl.accessToken = 'pk.eyJ1Ijoic3RvcGljMTMiLCJhIjoiY2pnYmQ1Y3llMXl0ejJ4cWpsbmJrMWtmdiJ9.R1lW4rNrIfO4m1mBx18LNA';
-  var map = new mapboxgl.Map({
+      <<div id='map' style='width: 400px; height: 300px;'></div>
+      <script>
+      mapboxgl.accessToken = 'pk.eyJ1IjoidGhla2V2aHUiLCJhIjoiY2pnZTBrODJkMjFsMjMzbXF4NmIyYnh2YSJ9.1ZdYmq6HEhIIT8qBNpaJWw';
+      var map = new mapboxgl.Map({
       container: 'map',
-      style: 'mapbox://styles/stopic13/cjgbgrd0n4mos2rnihvtw2ipr'
-  });
+      style: 'mapbox://styles/thekevhu/cjge17p3a000s2so5n3g3zcjt'
+      });
+      var geojson = {
+      type: 'FeatureCollection',
+      features: [{
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [-72.288424, 43.703301]
+        },
+        properties: {
+          title: "Tim's Pizza Place",
+          description: 'Hanover, NH'
+        }
+      },
+      {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [72.288424, 43.703301]
+        },
+        properties: {
+          title: 'Second Pizza Shop Location',
+          description: 'Up to you'
+        }
+      }]
+    };
+    geojson.features.forEach(function(marker) {
 
-</script>
+      // create a HTML element for each feature
+      var el = document.createElement('div');
+      el.className = 'marker';
+
+      // make a marker for each feature and add to the map
+      new mapboxgl.Marker(el)
+    .setLngLat(marker.geometry.coordinates)
+    .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+    .setHTML('<h3>' + marker.properties.title + '</h3><p>' + marker.properties.description + '</p>'))
+    .addTo(map);
+    });
+      </script>
+
     </div>
   </div>
 
